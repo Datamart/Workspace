@@ -1,0 +1,2 @@
+# Workspace
+Datamart workspace configuration
