@@ -91,7 +91,6 @@ function run() {
   echo "Done"
 }
 
-
 #
 # The main function.
 #
