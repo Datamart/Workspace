@@ -41,7 +41,7 @@ function run() {
   local java="$(which java)"
   if [[ ! -f "${LIB}/java" ]]; then
     java="${LIB}/java"
-  if
+  fi
 
   if [ -d "${CSS_SOURCES}" ]; then
     rm -rf "${CSS_COMPILED}"

@@ -66,7 +66,7 @@ function run() {
              --custom_jsdoc_tags "${CUSTOM_TAGS}" \
              -x "${CWD}/externs.js" \
              -r "${JS_SOURCES}"
-  if
+  fi
   echo "Done"
 }
 

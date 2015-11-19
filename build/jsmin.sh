@@ -57,7 +57,7 @@ function run() {
   local java="$(which java)"
   if [[ ! -f "${LIB}/java" ]]; then
     java="${LIB}/java"
-  if
+  fi
 
   if [ -d "${JS_SOURCES}" ]; then
     rm -rf "${JS_COMPILED}"
