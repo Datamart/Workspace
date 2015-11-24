@@ -20,8 +20,10 @@ readonly JS_COMPILER_JAR="${LIB}/compiler.jar"
 readonly WGET="$(which wget)"
 readonly CURL="$(which curl)"
 readonly PYTHON="$(which python)"
-# readonly JAVA="$(which java)"
+readonly JAVA="$(which java)"
 readonly UNZIP="$(which unzip)"
+# Hot fix for clean installation of OS X El Capitan.
+readonly JAVA_OSX="/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin/java"
 
 readonly LICENSE="/* @license http://www.apache.org/licenses/LICENSE-2.0 */"
 readonly NEW_LINE=$'\n'
@@ -55,9 +57,9 @@ function download() {
 #
 function run() {
   echo "Running closure compiler:"
-  local JAVA="${LIB}/java"
-  if [[ ! -f "${JAVA}" ]]; then
-    JAVA="$(which java)"
+  local JAVA_BIN="${JAVA}"
+  if [[ -f "${JAVA_OSX}" ]]; then
+    JAVA_BIN="${JAVA_OSX}"
   fi
 
   if [ -d "${JS_SOURCES}" ]; then
@@ -65,7 +67,7 @@ function run() {
     touch "${JS_COMPILED}" && chmod 0666 "${JS_COMPILED}"
 
     $PYTHON -c "import sys;sys.argv.pop(0);print(' --js ' + ' --js '.join(sorted(sys.argv, cmp=lambda x,y: cmp(x.lower(), y.lower()))))" `find "${JS_SOURCES}" -name "*.js" -print` \
-      | xargs $JAVA -jar "${JS_COMPILER_JAR}" \
+      | xargs "${JAVA_BIN}" -jar "${JS_COMPILER_JAR}" \
           --compilation_level ADVANCED_OPTIMIZATIONS \
           --warning_level VERBOSE \
           --charset UTF-8 \
