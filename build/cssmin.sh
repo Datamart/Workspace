@@ -3,6 +3,7 @@
 # Downloads and runs Google closure stylesheets compiler.
 # Guide: https://google.github.io/styleguide/shell.xml
 # Link: https://github.com/google/closure-stylesheets
+# Source: https://github.com/Datamart/Workspace/blob/master/build/cssmin.sh
 
 readonly CWD=$(cd $(dirname $0); pwd)
 readonly LIB="${CWD}/lib"
@@ -16,6 +17,9 @@ readonly CSS_COMPILER_JAR="${LIB}/closure-stylesheets.jar"
 
 readonly WGET="$(which wget)"
 readonly CURL="$(which curl)"
+readonly JAVA="$(which java)"
+# Hot fix for clean installation of OS X El Capitan.
+readonly JAVA_OSX="/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin/java"
 
 
 #
@@ -38,9 +42,9 @@ function download() {
 #
 function run() {
   echo "Running closure stylesheets compiler:"
-  local java="$(which java)"
-  if [[ ! -f "${LIB}/java" ]]; then
-    java="${LIB}/java"
+  local JAVA_BIN="${JAVA}"
+  if [[ -f "${JAVA_OSX}" ]]; then
+    JAVA_BIN="${JAVA_OSX}"
   fi
 
   if [ -d "${CSS_SOURCES}" ]; then
@@ -49,7 +53,7 @@ function run() {
 
     find "${CSS_SOURCES}" -name "*.css" -print \
       | sed 's/.*/ &/' \
-      | xargs ${java} -jar "${CSS_COMPILER_JAR}" \
+      | xargs ${JAVA_BIN} -jar "${CSS_COMPILER_JAR}" \
           --allow-unrecognized-properties \
           --allow-unrecognized-functions \
           --output-file "${CSS_COMPILED}"
