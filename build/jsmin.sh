@@ -19,7 +19,7 @@ readonly JS_COMPILER_JAR="${LIB}/compiler.jar"
 readonly WGET="$(which wget)"
 readonly CURL="$(which curl)"
 readonly PYTHON="$(which python)"
-readonly JAVA="$(which java)"
+# readonly JAVA="$(which java)"
 readonly UNZIP="$(which unzip)"
 
 readonly LICENSE="/* @license http://www.apache.org/licenses/LICENSE-2.0 */"
@@ -54,9 +54,9 @@ function download() {
 #
 function run() {
   echo "Running closure compiler:"
-  local java="$(which java)"
-  if [[ ! -f "${LIB}/java" ]]; then
-    java="${LIB}/java"
+  local JAVA="${LIB}/java"
+  if [[ ! -f "${JAVA}" ]]; then
+    JAVA="$(which java)"
   fi
 
   if [ -d "${JS_SOURCES}" ]; then
