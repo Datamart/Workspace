@@ -3,6 +3,7 @@
 # Downloads and runs Google closure compiler.
 # Guide: https://google.github.io/styleguide/shell.xml
 # Link: https://developers.google.com/closure/compiler/
+# Source: https://github.com/Datamart/Workspace/blob/master/build/jsmin.sh
 
 readonly CWD=$(cd $(dirname $0); pwd)
 readonly LIB="${CWD}/lib"
