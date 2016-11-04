@@ -5,6 +5,7 @@
 # Link: http://sourceforge.net/projects/pychecker/files/latest/
 # Link: http://www.pylint.org/#install
 # Link: https://pypi.python.org/pypi/pep8ify
+# Source: https://github.com/Datamart/Workspace/blob/master/build/pylint.sh
 
 readonly CWD=$(cd $(dirname $0); pwd)
 readonly LIB="${CWD}/lib"
@@ -31,10 +32,10 @@ function download() {
     echo "Downloading pychecker:"
     mkdir -p "${LIB}"
     rm -rf "${TMP}" && mkdir "${TMP}" && cd "${TMP}"
-    if [[ -n "$WGET" ]]; then
-      $WGET "${PYCHECKER_URL}" -O "${TMP}/${PYCHECKER_ZIP}"
-    else
+    if [[ -n "$CURL" ]]; then
       $CURL -L "${PYCHECKER_URL}" > "${TMP}/${PYCHECKER_ZIP}"
+    else
+      $WGET "${PYCHECKER_URL}" -O "${TMP}/${PYCHECKER_ZIP}"
     fi
     echo "Done"
 

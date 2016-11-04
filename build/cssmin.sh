@@ -28,10 +28,10 @@ readonly JAVA_OSX="/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/H
 function download() {
   if [[ ! -f "${CSS_COMPILER_JAR}" ]]; then
     echo "Downloading closure stylesheets compiler:"
-    if [[ -n "$WGET" ]]; then
-      $WGET "${CSS_COMPILER_URL}" -O "${CSS_COMPILER_JAR}"
-    else
+    if [[ -n "$CURL" ]]; then
       $CURL -L "${CSS_COMPILER_URL}" > "${CSS_COMPILER_JAR}"
+    else
+      $WGET "${CSS_COMPILER_URL}" -O "${CSS_COMPILER_JAR}"
     fi
     echo "Done"
   fi
@@ -47,13 +47,13 @@ function run() {
     JAVA_BIN="${JAVA_OSX}"
   fi
 
-  if [ -d "${CSS_SOURCES}" ]; then
+  if [[ -d "${CSS_SOURCES}" ]]; then
     rm -rf "${CSS_COMPILED}"
     touch "${CSS_COMPILED}" && chmod 0666 "${CSS_COMPILED}"
 
     find "${CSS_SOURCES}" -name "*.css" -print \
       | sed 's/.*/ &/' \
-      | xargs ${JAVA_BIN} -jar "${CSS_COMPILER_JAR}" \
+      | xargs "${JAVA_BIN}" -jar "${CSS_COMPILER_JAR}" \
           --allow-unrecognized-properties \
           --allow-unrecognized-functions \
           --output-file "${CSS_COMPILED}"

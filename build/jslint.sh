@@ -3,6 +3,7 @@
 # Downloads and runs Google closure linter.
 # Guide: https://google.github.io/styleguide/shell.xml
 # Link: https://github.com/google/closure-linter
+# Source: https://github.com/Datamart/Workspace/blob/master/build/jslint.sh
 
 readonly CWD=$(cd $(dirname $0); pwd)
 readonly LIB="${CWD}/lib"
@@ -29,10 +30,10 @@ function download() {
     echo "Downloading closure linter:"
     mkdir -p "${LIB}"
     rm -rf "${TMP}" && mkdir "${TMP}" && cd "${TMP}"
-    if [[ -n "$WGET" ]]; then
-      $WGET "${JS_LINTER_URL}" -O "${TMP}/${JS_LINTER_ZIP}"
-    else
+    if [[ -n "$CURL" ]]; then
       $CURL -L "${JS_LINTER_URL}" > "${TMP}/${JS_LINTER_ZIP}"
+    else
+      $WGET "${JS_LINTER_URL}" -O "${TMP}/${JS_LINTER_ZIP}"
     fi
     echo "Done"
 
@@ -57,7 +58,7 @@ function run() {
   local GJSLINT="$(which gjslint)"
   local FIXJSSTYLE="$(which fixjsstyle)"
 
-  if [ -d "${JS_SOURCES}" ]; then
+  if [[ -d "${JS_SOURCES}" ]]; then
     $FIXJSSTYLE --strict \
                 --custom_jsdoc_tags "${CUSTOM_TAGS}" \
                 -x "${CWD}/externs.js" \
